@@ -117,21 +117,13 @@ The selected features makes the linear model more stable.
 In this case, we obtain the linear model with a small latent space dimensionality.
 However, the final model uses the whole range of the raw features, and it does not allow to remove useless features. 
 
-To obtain a sparse and stable forecasting model, we apply feature selection procedure. The majority of feature selection methods ignores dependencies in target space. 
-This study suggests a novel approach to feature selection. 
-The proposed approach extends the ideas of the quadratic programming feature selection~(QPFS)~\citep{rodriguez2010quadratic} algorithm. 
-It selects the non-correlated features that are relevant to the targets.  
-The proposed methods take into account the dependencies in target space and select features, which are jointly informative to all targets.
+To obtain a sparse and stable forecasting model, we apply feature selection procedure. The majority of feature selection methods ignores dependencies in target space. This study suggests a novel approach to feature selection. The proposed approach extends the ideas of the quadratic programming feature selection~(QPFS)~\citep{rodriguez2010quadratic} algorithm. It selects the non-correlated features that are relevant to the targets.  The proposed methods take into account the dependencies in target space and select features, which are jointly informative to all targets.
  
 Feature selection is a special type of dimensionality reduction where the latent representation is a subset of the initial data description. 
-Here, a subset of features defines a forecasting model.
+{\color{red}Here, a subset of features defines a forecasting model.}
 The QPFS maximizes the feature relevances and minimizes the pairwise feature redundancy. 
 This approach was proposed and investigated in~\citep{ding2005minimum,yamada2014high}.
- It solves the optimization problem to select an optimal feature set. 
- The paper~\citep{katrutsa2017comprehensive} shows that the QPFS algorithm outperforms many existing feature selection methods for the univariate regression problem.  
- The admissible feature set is denoted in~\eqref{eq:qpfs_problem} by the vector~$\mathbf{z}$. Each selected feature is indicated by one element of this vector, which makes~$2^n$-1 admissible combinations of features. 
- The solution~$\mathbf{z}$ of the quadratic form~\eqref{eq:qpfs_problem} is delivered by a convex optimization algorithm with relaxation of the integer variable, here~$\mathbf{z}\in\mathbb{R}^n$. 
- The algorithm solves the following optimization problem:
+ {\color{red} It solves the optimization problem to select an optimal feature set.} The paper~\citep{katrutsa2017comprehensive} shows that the QPFS algorithm outperforms many existing feature selection methods for the univariate regression problem.  {\color{red} The admissible feature set is denoted in~\eqref{eq:qpfs_problem} by the vector~$\mathbf{z}$. Each selected feature is indicated by one element of this vector, which makes~$2^n$-1 admissible combinations of features. The solution~$\mathbf{z}$ of the quadratic form~\eqref{eq:qpfs_problem} is delivered by a convex optimization algorithm with relaxation of the integer variable, here~$\mathbf{z}\in\mathbb{R}^n$. The algorithm solves the following optimization problem:}
 \begin{equation}
 (1 - \alpha) \cdot \underbrace{\bz^{\T} \bQ \bz}_{\text{Sim}(\bX)} - \alpha \cdot \underbrace{ \bb^{\T} \bz}_{\text{Rel} (\bX, \bY)}%\bnu)} 
 \rightarrow \min_{\substack{\bz \geq \bZero_n \\ \bOne_n^{\T} \bz=1}}.
@@ -147,8 +139,7 @@ The vector~$\bb \in \bbR^n$ expresses the similarities between each feature and 
 The normalized vector~$\bz \in \bbR^n$ shows the importance of each feature.
 Function~\eqref{eq:qpfs_problem} penalizes the dependent features using the Sim function and promotes the features that are relevant to the target using the Rel function.
 The parameter~$\alpha$ controls the trade-off between Sim and Rel.
-To measure the similarity, the authors of~\citep{rodriguez2010quadratic} used the absolute value of the sample correlation coefficient between pairs of features for the Sim function, and between the features and the target vector for the Rel function. 
-The detailed explanation of this optimization problem is given in next section.
+To measure the similarity, the authors of~\citep{rodriguez2010quadratic} used the absolute value of the sample correlation coefficient between pairs of features for the Sim function, and between the features and the target vector for the Rel function. {\color{red} The detailed explanation of this optimization problem is given in next section.}
 
 Paper~\citep{motrenko2018multi} proposes a multi-way version of the QPFS algorithm for ECoG-based tensor data. 
 It was shown that QPFS is an appropriate feature selection method for the signal decoding problem.
@@ -158,13 +149,9 @@ In this case, feature selection algorithms do not take into account these depend
 Hence, the selected feature subset is not optimal regarding its prediction.
 
 We propose methods that take into account the dependencies in both input and target spaces.  It allows to form a stable sparse model.
-We refer to the original QPFS algorithm as our baseline for the computational experiment. The convergence of the quadratic programming algorithms were shown theoretically in~\citep{isachenko2018quadratic}. 
-The class of convex algorithms was investigated by~\citep{nesterov1983momentum} and~\citep{blaschke1996some}.
+We refer to the original QPFS algorithm as our baseline for the computational experiment. {\color{red} The convergence of the quadratic programming algorithms were shown theoretically in~\citep{isachenko2018quadratic}. The class of convex algorithms was investigated by~\citep{nesterov1983momentum} and~\citep{blaschke1996some}.}
 
-The main drawback of the QPFS algorithm is its computational costs. However, the original paper~\citep{rodriguez2010quadratic} suggests a way to solve the quadratic problem~\eqref{eq:qpfs_problem} efficiently. 
-Additionally, in~\citep{prasad2013scaling} the proposed sequential minimal optimization framework solves the problem~\eqref{eq:qpfs_problem}. 
-There are alternative ways for solving such optimization problems~\citep{preitl2006use,chiang2014apn,li2020hard,precup2021optimal}. 
-Our choice of the QPFS formulation is based on the applicability of this approach to the ECOG data~\citep{motrenko2018multi}, its success on the feature selection task~\citep{katrutsa2017comprehensive}, and the interpretability of the solution in terms of linear multicorrelation.
+The main drawback of the QPFS algorithm is its computational costs. However, the original paper~\citep{rodriguez2010quadratic} suggests a way to solve the quadratic problem~\eqref{eq:qpfs_problem} efficiently. Additionally, in~\citep{prasad2013scaling} the proposed sequential minimal optimization framework solves the problem~\eqref{eq:qpfs_problem}. {\color{red} There are alternative ways for solving such optimization problems~\citep{preitl2006use,chiang2014apn,li2020hard,precup2021optimal}. Our choice of the QPFS formulation is based on the applicability of this approach to the ECOG data~\citep{motrenko2018multi}, its success on the feature selection task~\citep{katrutsa2017comprehensive}, and the interpretability of the solution in terms of linear multicorrelation.}
 
 The experiments were carried out using the ECoG dataset~\citep{shimoda2012decoding}.
 We compared the proposed methods for multivariate feature selection with the baseline strategy and the PLS algorithm~\citep{isachenko2018plsdestech}. 
@@ -238,14 +225,13 @@ a_j = \begin{cases}
 0, & \text{otherwise}.
 \end{cases}
 \end{equation*}
-$\tau$ is a hyperparameter that is defined manually or chosen by cross-validation. The problem~\eqref{eq:relaxed_feature_selection} is the main problem for feature selection task used in the paper.
+$\tau$ is a hyperparameter that is defined manually or chosen by cross-validation. {\color{red} The problem~\eqref{eq:relaxed_feature_selection} is the main problem for feature selection task used in the paper.} 
 
 Once the solution~$\ba$ of~\eqref{eq:feature_selection} is known, problem~\eqref{eq:loss_function} becomes
 \begin{equation*}
 \mathcal{L}(\bTheta_{\ba} | \bX_{\ba}, \bY) = {\left\| \mathbf{Y} - \bX_{\ba}\bTheta^{\T}_{\ba} \right\| }_2^2 \rightarrow\min_{\bTheta_{\ba}},
 \end{equation*}
-where subscript~$\ba$ indicates the sub matrix with the columns in which the components of~$\ba$ equal 1. 
-Further in this section we derive the proposed feature selection methods.
+where subscript~$\ba$ indicates the sub matrix with the columns in which the components of~$\ba$ equal 1. {\color{red} Further in this section we derive the proposed feature selection methods.}
 
 \subsection{Quadratic Programming Feature Selection}
 
@@ -502,7 +488,8 @@ RelAgg is the baseline strategy, and it does not consider target space correlati
 SymImp penalizes the pairwise target correlations.
 MinMax are more sensitive to the targets that are difficult to predict.
 The AsymImp strategy adds the term to the SymImp function to make the features and targets have asymmetric influences. 
-All the proposed methods solve the quadratic programming optimization tasks. The convergence of these type of problems carefully studied in~\citep{nesterov1983momentum,blaschke1997convergence,isachenko2018quadratic}.
+{\color{red} All the proposed methods solve the quadratic programming optimization tasks. The convergence of these type of problems carefully studied in~\citep{nesterov1983momentum,blaschke1997convergence,isachenko2018quadratic}.}
+
 
 \begin{table}
 	\centering
@@ -601,15 +588,11 @@ The Bayesian Information Criteria (BIC) incorporates a trade-off between the pre
 \end{equation*}
 A smaller value of BIC means a better feature subset.
 
-All convex quadratic optimization problems had been solved using CVXPY open-source Python library~\citep{diamond2016cvxpy,agrawal2018rewriting}. The source code for the paper could be found here~\footnote{\href{https://github.com/Intelligent-Systems-Phystech/MultivariateQPFS}{https://github.com/Intelligent-Systems-Phystech/MultivariateQPFS}}.
+{\color{red} All convex quadratic optimization problems had been solved using CVXPY open-source Python library~\citep{diamond2016cvxpy,agrawal2018rewriting}. The source code for the paper could be found here~\footnote{\href{https://github.com/Intelligent-Systems-Phystech/MultivariateQPFS}{https://github.com/Intelligent-Systems-Phystech/MultivariateQPFS}}}.
 
 \subsection{Data}
 
-We conducted a computational experiment with the ECoG data from the NeuroTycho project~\citep{shimoda2012decoding,motrenko2018multi}. 
-This data and the problem of Brain-Computer Interface construction itself demanded the proposed theory due to the high multicorrelation and redundancy of the features. 
-The paper ~\citep{motrenko2018multi} shows experimentally three types of multicorrelated data. First, the ECoG signals are cross-correlated due the short distance between the cortical electrodes. 
-Second, the limb movement sequence is interdependent due its physical nature. 
-And third, there is the multiple correlation between the brain and limb signals, which established is the main reason to construct the BCI forecasting models.
+We conducted a computational experiment with the ECoG data from the NeuroTycho project~\citep{shimoda2012decoding,motrenko2018multi}. {\color{red} This data and the problem of Brain-Computer Interface construction itself demanded the proposed theory due to the high multicorrelation and redundancy of the features. The paper ~\citep{motrenko2018multi} shows experimentally three types of multicorrelated data. First, the ECoG signals are cross-correlated due the short distance between the cortical electrodes. Second, the limb movement sequence is interdependent due its physical nature. And third, there is the multiple correlation between the brain and limb signals, which established is the main reason to construct the BCI forecasting models.}
 
 The ECoG data consist of brain voltage signals recorded over 32 channels.
 The goal is to predict 3D hand positions in subsequent moments given the input signal. The initial voltage signals are transformed to the spatial-temporal representation using the wavelet transformation with the Morlet mother wavelet.
